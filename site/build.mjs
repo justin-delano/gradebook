@@ -152,3 +152,39 @@ console.log(
     ? `Built ${pages.length} pages. No release found, so downloads point at the releases page.`
     : `Built ${pages.length} pages with downloads for ${release.version}.`,
 )
+
+// A standing page at app/, so that the link every page carries in its top bar always
+// leads somewhere.
+//
+// Written on every build and overwritten by the real thing when there is one: the Pages
+// workflow unpacks the released web bundle over this directory, and its index.html
+// replaces this file. So this is what a reader sees only in the window before the first
+// release, or if a release ever goes out without the browser build attached.
+await mkdir(join(out, 'app'), { recursive: true })
+await writeFile(
+  join(out, 'app', 'index.html'),
+  fill(
+    fill(
+      fill(template, '{{title}}', 'The web app is not published yet'),
+      '{{nav}}',
+      // One level down, so the links back up have to say so.
+      navigation('').replaceAll('href="./', 'href="../'),
+    ),
+    '{{footer}}',
+    footerLinks().replaceAll('href="./', 'href="../'),
+  )
+    .replaceAll('href="./"', 'href="../"')
+    .replaceAll('href="./app/"', 'href="./"')
+    .replaceAll('href="./page.css"', 'href="../page.css"')
+    .replaceAll('href="./icon.svg"', 'href="../icon.svg"')
+    .replace(
+      '{{year}}',
+      String(new Date().getFullYear()),
+    )
+    .replace(
+      '{{content}}',
+      `<p>Gradebook runs in the browser, and this is where it will be. It is not published here yet.</p>
+<p>The app is put here by the first release. Until then there is nothing to open, and the rest of the site is written and ready: start with <a href="../install.html">installing it</a>, or read <a href="../guide.html">the guide</a>.</p>
+<p>If you are expecting it to be here, the <a href="https://github.com/${repo}/releases">releases page</a> says what has been published so far.</p>`,
+    ),
+)
