@@ -1,0 +1,225 @@
+/* One stylesheet for every page.
+ *
+ * The look is deliberately plain. This is a tool a teacher opens on a Tuesday to find
+ * out how to restore a backup, not a product page, so it reads like a page of writing
+ * with a navigation bar above it. The colours follow whatever the reader's computer is
+ * set to rather than insisting on a light page at night. */
+
+:root {
+  color-scheme: light dark;
+  --ink: #1a1a1a;
+  --quiet: #5a5a5a;
+  --page: #ffffff;
+  --edge: #d8d8d8;
+  --raised: #f4f4f4;
+  --link: #0b57d0;
+  --measure: 38rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #eaeaea;
+    --quiet: #a8a8a8;
+    --page: #17181a;
+    --edge: #34363a;
+    --raised: #212327;
+    --link: #8ab4f8;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font:
+    1rem/1.65
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+}
+
+.skip {
+  position: absolute;
+  left: -100vw;
+}
+.skip:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+  background: var(--page);
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--edge);
+  z-index: 2;
+}
+
+a {
+  color: var(--link);
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+  padding: 0.9rem 1.5rem;
+  border-bottom: 1px solid var(--edge);
+  background: var(--raised);
+}
+
+.wordmark {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+  flex: 1;
+}
+
+header nav a {
+  color: var(--quiet);
+  text-decoration: none;
+  padding: 0.15rem 0;
+  border-bottom: 2px solid transparent;
+}
+
+header nav a:hover,
+header nav a[aria-current='page'] {
+  color: var(--ink);
+  border-bottom-color: var(--link);
+}
+
+.open-app {
+  border: 1px solid var(--link);
+  border-radius: 4px;
+  padding: 0.35rem 0.8rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+main {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+h1 {
+  font-size: 1.75rem;
+  line-height: 1.25;
+  margin: 0 0 1.5rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin: 2.5rem 0 0.75rem;
+}
+
+h3 {
+  font-size: 1.02rem;
+  margin: 1.75rem 0 0.5rem;
+}
+
+p,
+li {
+  /* The prose is written one sentence per line, which markdown joins back into
+   * paragraphs. Nothing here should undo that. */
+  max-width: var(--measure);
+}
+
+code {
+  background: var(--raised);
+  border: 1px solid var(--edge);
+  border-radius: 3px;
+  padding: 0.05rem 0.3rem;
+  font-size: 0.9em;
+}
+
+pre {
+  background: var(--raised);
+  border: 1px solid var(--edge);
+  border-radius: 4px;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: 0.1rem 0 0.1rem 1rem;
+  border-left: 3px solid var(--edge);
+  color: var(--quiet);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  display: block;
+  overflow-x: auto;
+}
+
+th,
+td {
+  border: 1px solid var(--edge);
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+caption {
+  text-align: left;
+  color: var(--quiet);
+  padding-bottom: 0.4rem;
+}
+
+.downloads th[scope='row'] {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.download {
+  font-weight: 500;
+}
+
+.note,
+.notice {
+  color: var(--quiet);
+  font-size: 0.92rem;
+}
+
+.notice {
+  border: 1px solid var(--edge);
+  border-radius: 4px;
+  background: var(--raised);
+  padding: 0.8rem 1rem;
+}
+
+footer {
+  border-top: 1px solid var(--edge);
+  padding: 1.5rem;
+  color: var(--quiet);
+  font-size: 0.9rem;
+}
+
+footer nav {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+footer p {
+  margin: 0;
+}
