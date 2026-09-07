@@ -16,6 +16,13 @@ import { fileURLToPath } from 'node:url'
 
 import { marked } from 'marked'
 
+// Substitution through a function rather than a string, because a string replacement
+// treats $& and $` as instructions to paste part of the match back in. The prose poured
+// in here is written by hand and may contain either.
+function fill(text, marker, value) {
+  return text.replaceAll(marker, () => value)
+}
+
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const out = join(root, '_site')
 
@@ -115,14 +122,14 @@ await mkdir(out, { recursive: true })
 
 for (const page of pages) {
   const source = await readFile(join(root, 'docs', `${page.slug}.md`), 'utf8')
-  const html = marked.parse(source, { async: false }).replace('<!--downloads-->', downloadTable(release))
+  const body = marked.parse(source, { async: false })
+  const html = fill(body, '<!--downloads-->', downloadTable(release))
 
-  const rendered = template
-    .replaceAll('{{title}}', page.title)
-    .replaceAll('{{nav}}', navigation(page.slug))
-    .replaceAll('{{footer}}', footerLinks())
-    .replaceAll('{{year}}', String(new Date().getFullYear()))
-    .replaceAll('{{content}}', html)
+  let rendered = fill(template, '{{title}}', page.title)
+  rendered = fill(rendered, '{{nav}}', navigation(page.slug))
+  rendered = fill(rendered, '{{footer}}', footerLinks())
+  rendered = fill(rendered, '{{year}}', String(new Date().getFullYear()))
+  rendered = fill(rendered, '{{content}}', html)
 
   await writeFile(join(out, `${page.slug}.html`), rendered)
 }
