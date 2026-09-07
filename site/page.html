@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="./page.css" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to the page</a>
+    <header>
+      <a class="wordmark" href="./">Gradebook</a>
+      <nav aria-label="Sections">
+        {{nav}}
+      </nav>
+      <a class="open-app" href="./app/">Open the web app</a>
+    </header>
+    <main id="content">
+      <h1>{{title}}</h1>
+      {{content}}
+    </main>
+    <footer>
+      <nav aria-label="Policies">
+        {{footer}}
+      </nav>
+      <p>Gradebook is made by Justin Delano. Copyright {{year}}.</p>
+    </footer>
+  </body>
+</html>
