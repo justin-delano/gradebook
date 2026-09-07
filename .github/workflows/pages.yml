@@ -18,7 +18,7 @@ on:
       - docs/**
       - site/**
       - package.json
-      - package-lock.json
+      - pnpm-lock.yaml
       - .github/workflows/pages.yml
   # Sent by the release workflow in the private source repository once a release here has
   # its installers and its web bundle attached.
@@ -45,17 +45,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # No version here on purpose: package.json names the pnpm version in
+      # packageManager, and giving both makes this action refuse to choose.
+      - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
+          cache: pnpm
 
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
 
       # Reads the latest release to write the download table, so it needs a token even
       # though the repository is public: unauthenticated API calls from Actions runners
       # are rate limited against the whole runner, not against this job.
-      - run: npm run build
+      - run: pnpm build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
