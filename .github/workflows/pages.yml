@@ -1,0 +1,92 @@
+name: Site
+
+# Publishes the site at https://justin-delano.github.io/gradebook/.
+#
+# The site is two things joined at build time. The pages a teacher reads are markdown in
+# this repository, rendered by site/build.mjs. The web app itself is built from the
+# private source repository and attached to a release here as gradebook-web.zip, which
+# this job unpacks into app/.
+#
+# That split is why this runs on a repository_dispatch as well as on a push: publishing a
+# release changes what the download table should say and which app is served, without
+# anything in this repository having changed.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - docs/**
+      - site/**
+      - package.json
+      - package-lock.json
+      - .github/workflows/pages.yml
+  # Sent by the release workflow in the private source repository once a release here has
+  # its installers and its web bundle attached.
+  repository_dispatch:
+    types: [release-published]
+  workflow_dispatch:
+
+# Pages needs to read the repository, mint an id token to prove the deployment came from
+# this workflow, and write the deployment itself. Nothing else.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time, and a release that lands mid-build wins over the build it
+# interrupted, because it is the newer description of the same site.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # Reads the latest release to write the download table, so it needs a token even
+      # though the repository is public: unauthenticated API calls from Actions runners
+      # are rate limited against the whole runner, not against this job.
+      - run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
+      # The web app, as built from the private source repository and published here.
+      #
+      # Missing before the first release, which is not a failure: the site is still worth
+      # publishing, and the pages that link to the app say where it will be.
+      - name: Add the web app
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release download --pattern gradebook-web.zip --dir /tmp/app 2>/dev/null; then
+            mkdir -p _site/app
+            unzip -q /tmp/app/gradebook-web.zip -d _site/app
+            echo "Serving the web app from the latest release."
+          else
+            echo "No web bundle published yet; the site goes out without app/."
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
