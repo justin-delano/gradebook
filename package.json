@@ -1,0 +1,17 @@
+{
+  "name": "gradebook-site",
+  "private": true,
+  "type": "module",
+  "description": "The public site for Gradebook: downloads, documentation, and the web app",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "node site/build.mjs",
+    "preview": "node site/build.mjs && node --run serve",
+    "serve": "node site/serve.mjs"
+  },
+  "dependencies": {
+    "marked": "^16.1.1"
+  }
+}
