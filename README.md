@@ -37,9 +37,9 @@ They are written one sentence per line, which keeps a change to a sentence looki
 ## Building the site
 
 ```sh
-npm install
-npm run build     # render docs/ into _site/
-npm run preview   # render it and serve it at http://127.0.0.1:4321/
+pnpm install
+pnpm build        # render docs/ into _site/
+pnpm preview      # render it and serve it at http://127.0.0.1:4321/
 ```
 
 The build reads the latest release from the GitHub API to write the download table, so a local build with no network still works and simply points at the releases page instead.
