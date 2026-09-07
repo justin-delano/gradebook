@@ -3,13 +3,13 @@
   "private": true,
   "type": "module",
   "description": "The public site for Gradebook: downloads, documentation, and the web app",
+  "packageManager": "pnpm@12.3.4",
   "engines": {
     "node": ">=24"
   },
   "scripts": {
     "build": "node site/build.mjs",
-    "preview": "node site/build.mjs && node --run serve",
-    "serve": "node site/serve.mjs"
+    "preview": "node site/build.mjs && node site/serve.mjs"
   },
   "dependencies": {
     "marked": "^16.1.1"
