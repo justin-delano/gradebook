@@ -74,7 +74,12 @@ jobs:
         run: |
           if gh release download --pattern gradebook-web.zip --dir /tmp/app 2>/dev/null; then
             mkdir -p _site/app
-            unzip -q /tmp/app/gradebook-web.zip -d _site/app
+            # Overwritten rather than merged into. There is already an index.html at app/,
+            # the page that stands there saying the app arrives with the first release, and
+            # the released app is the thing that replaces it. Without -o unzip stops to ask,
+            # reads end of file, answers itself no, and fails the build, so the site never
+            # publishes the app it was rebuilt to publish.
+            unzip -qo /tmp/app/gradebook-web.zip -d _site/app
             echo "Serving the web app from the latest release."
           else
             echo "No web bundle published yet; the site goes out without app/."
