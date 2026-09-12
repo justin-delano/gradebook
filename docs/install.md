@@ -1,6 +1,6 @@
 One application, built three ways.
 Windows and macOS get an installer you double-click.
-A Chromebook cannot run a program like that at all, so there Gradebook installs from the web instead, and ends up with its own icon and its own window just the same.
+A Chromebook cannot run a program like that at all, so there Greatbook installs from the web instead, and ends up with its own icon and its own window just the same.
 
 ## Windows and macOS
 
@@ -16,7 +16,7 @@ On Windows, SmartScreen says "Windows protected your PC".
 Choose More info, then Run anyway.
 
 On macOS the first launch is blocked because the developer cannot be verified.
-Open System Settings, then Privacy and Security, scroll down to the message about Gradebook, and choose Open Anyway.
+Open System Settings, then Privacy and Security, scroll down to the message about Greatbook, and choose Open Anyway.
 Then launch it again.
 The old trick of right-clicking and choosing Open no longer works on recent versions of macOS.
 
@@ -24,7 +24,7 @@ The old trick of right-clicking and choosing Open no longer works on recent vers
 
 Open [the web app](./app/).
 Chrome shows an install button in the address bar, and the app's own top bar has one too.
-Choose it and Gradebook gets an icon in your launcher and opens in its own window, with no tabs and no address bar.
+Choose it and Greatbook gets an icon in your launcher and opens in its own window, with no tabs and no address bar.
 
 Once it is installed it works with no internet connection.
 The first visit needs a connection; after that it does not.

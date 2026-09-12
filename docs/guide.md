@@ -1,4 +1,4 @@
-Gradebook has five places along the top: Grades, Assignments, Report cards, Trends, and Setup.
+Greatbook has five places along the top: Grades, Assignments, Report cards, Trends, and Setup.
 You will spend nearly all your time in the first one.
 
 ## Setting up a class

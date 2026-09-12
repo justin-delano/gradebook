@@ -1,4 +1,4 @@
-Gradebook can keep a copy of your gradebook in your own Google Drive, so you can pick it up on another computer.
+Greatbook can keep a copy of your gradebook in your own Google Drive, so you can pick it up on another computer.
 It is switched off until you switch it on, and it is the only part of the app that uses the internet at all.
 
 This is planned as the paid addition to an otherwise free app.
@@ -14,7 +14,7 @@ The copy goes to your Google Drive and nowhere else.
 There is no server of ours in the middle, because there is no server of ours.
 Your students' names and scores are never sent to us, and we could not read them if we wanted to.
 
-## What Gradebook is allowed to see
+## What Greatbook is allowed to see
 
 The permission asked for is the narrowest one Google offers, called `drive.file`.
 It means the app can only see files it created itself, plus any file you specifically hand it with Google's own file picker.
@@ -39,10 +39,10 @@ You can also withdraw the permission from Google's side, at [myaccount.google.co
 ## If your school blocks it
 
 Many districts turn off third-party apps for school Google accounts.
-If yours has, Gradebook notices and simply does not offer Drive, rather than offering it and then failing when you take it up.
+If yours has, Greatbook notices and simply does not offer Drive, rather than offering it and then failing when you take it up.
 
 Everything else in the app works exactly the same.
-Drive is an addition to Gradebook, not something it depends on.
+Drive is an addition to Greatbook, not something it depends on.
 
 ## What we collect
 

@@ -1,11 +1,17 @@
 name: Site
 
-# Publishes the site at https://justin-delano.github.io/gradebook/.
+# Publishes the site at https://doublespaced.app.
 #
 # The site is two things joined at build time. The pages a teacher reads are markdown in
-# this repository, rendered by site/build.mjs. The web app itself is built from the
-# private source repository and attached to a release here as gradebook-web.zip, which
-# this job unpacks into app/.
+# this repository, rendered by site/build.mjs into greatbook/. The web app itself is built
+# from the private source repository and attached to a release in doublespacedapp/greatbook
+# as greatbook-web.zip, which this job unpacks into greatbook/app/.
+#
+# Three repositories, and the two public ones are easy to confuse. This one holds the site
+# and nothing else; the releases live next door. Everything below that reaches for a
+# release says so explicitly, because the default is this repository and this repository
+# has no releases in it -- and the failure is silent, a download table that says there is
+# nothing published yet.
 #
 # That split is why this runs on a repository_dispatch as well as on a push: publishing a
 # release changes what the download table should say and which app is served, without
@@ -62,24 +68,27 @@ jobs:
       - run: pnpm build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+          RELEASES_REPOSITORY: doublespacedapp/greatbook
 
-      # The web app, as built from the private source repository and published here.
+      # The web app, as built from the private source repository and published next door.
       #
       # Missing before the first release, which is not a failure: the site is still worth
-      # publishing, and the pages that link to the app say where it will be.
+      # publishing, and the pages that link to the app say where it will be. Reading a
+      # public repository's releases needs no token of its own, so the one Actions provides
+      # is enough even though the release is not in this repository.
       - name: Add the web app
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if gh release download --pattern gradebook-web.zip --dir /tmp/app 2>/dev/null; then
-            mkdir -p _site/app
-            # Overwritten rather than merged into. There is already an index.html at app/,
-            # the page that stands there saying the app arrives with the first release, and
-            # the released app is the thing that replaces it. Without -o unzip stops to ask,
-            # reads end of file, answers itself no, and fails the build, so the site never
-            # publishes the app it was rebuilt to publish.
-            unzip -qo /tmp/app/gradebook-web.zip -d _site/app
+          if gh release download --repo doublespacedapp/greatbook \
+               --pattern greatbook-web.zip --dir /tmp/app 2>/dev/null; then
+            mkdir -p _site/greatbook/app
+            # Overwritten rather than merged into. There is already an index.html at
+            # greatbook/app/, the page that stands there saying the app arrives with the
+            # first release, and the released app is the thing that replaces it. Without -o
+            # unzip stops to ask, reads end of file, answers itself no, and fails the build,
+            # so the site never publishes the app it was rebuilt to publish.
+            unzip -qo /tmp/app/greatbook-web.zip -d _site/greatbook/app
             echo "Serving the web app from the latest release."
           else
             echo "No web bundle published yet; the site goes out without app/."

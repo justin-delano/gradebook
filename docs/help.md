@@ -1,5 +1,5 @@
 If something is wrong, the answer is often on this page.
-If it is not, [open an issue](https://github.com/justin-delano/gradebook/issues) and describe what happened.
+If it is not, [open an issue](https://github.com/doublespacedapp/greatbook/issues) and describe what happened.
 Please do not paste real student names into an issue; it is a public page.
 
 ## Windows will not let me run the installer
@@ -10,7 +10,7 @@ Choose More info, then Run anyway.
 
 ## macOS says the developer cannot be verified
 
-Open System Settings, then Privacy and Security, scroll to the message about Gradebook, and choose Open Anyway.
+Open System Settings, then Privacy and Security, scroll to the message about Greatbook, and choose Open Anyway.
 Then launch it again.
 Right-clicking and choosing Open no longer works on recent versions of macOS.
 

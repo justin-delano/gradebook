@@ -10,11 +10,11 @@
   <body>
     <a class="skip" href="#content">Skip to the page</a>
     <header>
-      <a class="wordmark" href="./">Gradebook</a>
+      {{wordmark}}
       <nav aria-label="Sections">
         {{nav}}
       </nav>
-      <a class="open-app" href="./app/">Open the web app</a>
+      {{actions}}
     </header>
     <main id="content">
       <h1>{{title}}</h1>
@@ -24,7 +24,7 @@
       <nav aria-label="Policies">
         {{footer}}
       </nav>
-      <p>Gradebook is made by Justin Delano. Copyright {{year}}.</p>
+      <p>{{colophon}}</p>
     </footer>
   </body>
 </html>
